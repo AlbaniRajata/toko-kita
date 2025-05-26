@@ -1,0 +1,11 @@
+{
+  "stocks": [
+    {
+      "id": "5356",
+      "name": "Pensil",
+      "quantity": 2,
+      "purchasePrice": 2000,
+      "date": "2025-05-26"
+    }
+  ]
+}
