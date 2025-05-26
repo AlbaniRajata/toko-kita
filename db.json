@@ -6,6 +6,13 @@
       "quantity": 1,
       "purchasePrice": 2000,
       "date": "2025-05-26"
+    },
+    {
+      "id": "6047",
+      "name": "Penghapus Steadler",
+      "quantity": 4,
+      "purchasePrice": 3000,
+      "date": "2025-05-26"
     }
   ],
   "purchases": [
@@ -16,6 +23,15 @@
       "quantity": 50,
       "purchasePrice": 2000,
       "date": "2025-05-26"
+    },
+    {
+      "id": "7969",
+      "name": "Pensil 4B",
+      "supplier": "Toko 2",
+      "quantity": 30,
+      "purchasePrice": 4000,
+      "date": "2025-05-26",
+      "total": 120000
     }
   ],
   "sales": [
@@ -27,6 +43,26 @@
       "date": "2025-05-26",
       "hpp": 2000,
       "total": 3000
+    },
+    {
+      "id": "5826",
+      "name": "Penghapus Steadler",
+      "quantity": 3,
+      "sellingPrice": 5000,
+      "date": "2025-05-26",
+      "hpp": 9000,
+      "profit": 6000,
+      "total": 15000
+    },
+    {
+      "id": "7632",
+      "name": "Penghapus Steadler",
+      "quantity": 3,
+      "sellingPrice": 5000,
+      "date": "2025-06-26",
+      "hpp": 9000,
+      "profit": 6000,
+      "total": 15000
     }
   ]
 }
