@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Form, InputNumber, DatePicker, Button, message, Select, Typography } from 'antd';
+import { Form, InputNumber, DatePicker, Button, message, Select, Typography, Card } from 'antd';
 import axios from 'axios';
+import '../styles/SaleForm.css';
 
 const { Option } = Select;
 const { Text } = Typography;
@@ -19,17 +20,15 @@ const SaleForm = () => {
     try {
       const res = await axios.get('http://localhost:3001/stocks');
       const stockSummary = res.data.reduce((acc, item) => {
-        if (!acc[item.name]) {
-          acc[item.name] = 0;
-        }
+        if (!acc[item.name]) acc[item.name] = 0;
         acc[item.name] += item.quantity;
         return acc;
       }, {});
-      
+
       const availableItems = Object.entries(stockSummary)
-        .filter(([name, qty]) => qty > 0)
+        .filter(([_, qty]) => qty > 0)
         .map(([name, qty]) => ({ name, quantity: qty }));
-      
+
       setItems(availableItems);
     } catch (err) {
       console.error('Error fetching items:', err);
@@ -78,17 +77,10 @@ const SaleForm = () => {
         totalHpp += useQty * stock.purchasePrice;
         remaining -= useQty;
 
-        updates.push({
-          id: stock.id,
-          newQty: stock.quantity - useQty
-        });
+        updates.push({ id: stock.id, newQty: stock.quantity - useQty });
       }
 
-      await Promise.all(
-        updates.map(({ id, newQty }) =>
-          updateStock(id, { quantity: newQty })
-        )
-      );
+      await Promise.all(updates.map(({ id, newQty }) => updateStock(id, { quantity: newQty })));
 
       const saleData = {
         id: Date.now().toString().slice(-4),
@@ -114,99 +106,109 @@ const SaleForm = () => {
   };
 
   return (
-    <Form 
-      form={form} 
-      layout="vertical" 
-      onFinish={onFinish} 
-      style={{ maxWidth: 400 }}
-    >
-      <Form.Item 
-        name="name" 
-        label="Nama Barang" 
-        rules={[{ required: true, message: 'Pilih barang yang dijual' }]}
-      >
-        <Select 
-          placeholder="Pilih barang"
-          onChange={handleItemChange}
-          showSearch
-          filterOption={(input, option) =>
-            option.children.toLowerCase().includes(input.toLowerCase())
-          }
+    <Card className="purchase-form-card">
+      <Form form={form} layout="vertical" onFinish={onFinish} className="purchase-form">
+        <Form.Item
+          name="name"
+          label="Nama Barang"
+          rules={[{ required: true, message: 'Pilih barang yang dijual' }]}
         >
-          {items.map(item => (
-            <Option key={item.name} value={item.name}>
-              {item.name} (Stok: {item.quantity})
-            </Option>
-          ))}
-        </Select>
-      </Form.Item>
-
-      {selectedItem && (
-        <Text type="secondary" style={{ marginBottom: 16, display: 'block' }}>
-          Stok tersedia: {availableStock} unit
-        </Text>
-      )}
-
-      <Form.Item 
-        name="quantity" 
-        label="Jumlah Terjual" 
-        rules={[
-          { required: true, message: 'Jumlah terjual wajib diisi' },
-          { type: 'number', min: 1, message: 'Jumlah minimal 1' },
-          {
-            validator: (_, value) => {
-              if (value && value > availableStock) {
-                return Promise.reject(new Error(`Maksimal ${availableStock} unit`));
-              }
-              return Promise.resolve();
+          <Select
+            placeholder="Pilih barang"
+            onChange={handleItemChange}
+            onFocus={() => form.setFieldsValue({ _selectFocused: true })}
+            onBlur={() => form.setFieldsValue({ _selectFocused: false })}
+            className={`form-select ${form.getFieldValue('_selectFocused') ? 'form-select-focused' : ''}`}
+            showSearch
+            filterOption={(input, option) =>
+                option.children.toLowerCase().includes(input.toLowerCase())
             }
-          }
-        ]}
-      >
-        <InputNumber 
-          min={1} 
-          max={availableStock}
-          style={{ width: '100%' }} 
-          placeholder="Masukkan jumlah terjual"
-          disabled={!selectedItem}
-        />
-      </Form.Item>
+            >
+            {items.map(item => (
+                <Option key={item.name} value={item.name}>
+                {item.name} (Stok: {item.quantity})
+                </Option>
+            ))}
+            </Select>
+        </Form.Item>
 
-      <Form.Item 
-        name="sellingPrice" 
-        label="Harga Jual per Unit (Rp)" 
-        rules={[
-          { required: true, message: 'Harga jual wajib diisi' },
-          { type: 'number', min: 0, message: 'Harga tidak boleh negatif' }
-        ]}
-      >
-        <InputNumber 
-          min={0} 
-          style={{ width: '100%' }} 
-          placeholder="Masukkan harga jual per unit"
-          formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-          parser={value => value.replace(/\$\s?|(,*)/g, '')}
-        />
-      </Form.Item>
+        {selectedItem && (
+          <Text type="secondary" style={{ marginBottom: 16, display: 'block' }}>
+            Stok tersedia: {availableStock} unit
+          </Text>
+        )}
 
-      <Form.Item 
-        name="date" 
-        label="Tanggal Penjualan" 
-        rules={[{ required: true, message: 'Tanggal penjualan wajib diisi' }]}
-      >
-        <DatePicker 
-          style={{ width: '100%' }} 
-          format="YYYY-MM-DD"
-          placeholder="Pilih tanggal penjualan"
-        />
-      </Form.Item>
+        <div className="form-row">
+          <Form.Item
+            name="quantity"
+            label="Jumlah Terjual"
+            rules={[
+              { required: true, message: 'Jumlah terjual wajib diisi' },
+              { type: 'number', min: 1, message: 'Jumlah minimal 1' },
+              {
+                validator: (_, value) => {
+                  if (value && value > availableStock) {
+                    return Promise.reject(new Error(`Maksimal ${availableStock} unit`));
+                  }
+                  return Promise.resolve();
+                }
+              }
+            ]}
+            className="form-item-half"
+          >
+            <InputNumber
+              min={1}
+              max={availableStock}
+              placeholder="Jumlah"
+              className="form-input-number"
+              disabled={!selectedItem}
+            />
+          </Form.Item>
 
-      <Form.Item>
-        <Button type="primary" htmlType="submit" block size="large">
-          Catat Penjualan
-        </Button>
-      </Form.Item>
-    </Form>
+          <Form.Item
+            name="sellingPrice"
+            label="Harga Jual per Unit (Rp)"
+            rules={[
+              { required: true, message: 'Harga jual wajib diisi' },
+              { type: 'number', min: 0, message: 'Harga tidak boleh negatif' }
+            ]}
+            className="form-item-half"
+          >
+            <InputNumber
+              min={0}
+              placeholder="Harga per unit"
+              formatter={value => `Rp ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, '.')}
+              parser={value => value.replace(/Rp\s?|(\.*)/g, '')}
+              className="form-input-number"
+            />
+          </Form.Item>
+        </div>
+
+        <Form.Item
+          name="date"
+          label="Tanggal Penjualan"
+          rules={[{ required: true, message: 'Tanggal penjualan wajib diisi' }]}
+        >
+          <DatePicker
+            className="form-date-picker"
+            format="DD/MM/YYYY"
+            placeholder="Pilih tanggal penjualan"
+          />
+        </Form.Item>
+
+        <Form.Item className="form-submit-item">
+          <Button
+            type="primary"
+            htmlType="submit"
+            block
+            size="large"
+            className="submit-button"
+          >
+            Catat Penjualan
+          </Button>
+        </Form.Item>
+      </Form>
+    </Card>
   );
 };
 

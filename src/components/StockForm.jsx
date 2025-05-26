@@ -1,5 +1,6 @@
-import { Form, Input, InputNumber, DatePicker, Button, message } from 'antd';
+import { Form, Input, InputNumber, DatePicker, Button, message, Card } from 'antd';
 import { addStock } from '../services/api';
+import '../styles/StockForm.css';
 
 const StockForm = () => {
   const [form] = Form.useForm();
@@ -22,12 +23,12 @@ const StockForm = () => {
   };
 
   return (
-    <div>
+    <Card className="stock-form-card">
       <Form 
         form={form} 
         layout="vertical" 
         onFinish={onFinish} 
-        style={{ maxWidth: 400 }}
+        className="stock-form"
       >
         <Form.Item 
           name="name" 
@@ -37,7 +38,10 @@ const StockForm = () => {
             { min: 2, message: 'Nama barang minimal 2 karakter' }
           ]}
         >
-          <Input placeholder="Contoh: Pensil 2B Faber Castell" />
+          <Input 
+            placeholder="Contoh: Pensil 2B Faber Castell" 
+            className="form-input"
+          />
         </Form.Item>
 
         <Form.Item 
@@ -50,7 +54,7 @@ const StockForm = () => {
         >
           <InputNumber 
             min={1} 
-            style={{ width: '100%' }} 
+            className="form-input-number" 
             placeholder="Masukkan jumlah stok"
           />
         </Form.Item>
@@ -65,34 +69,38 @@ const StockForm = () => {
         >
           <InputNumber 
             min={0} 
-            style={{ width: '100%' }} 
+            className="form-input-number" 
             placeholder="Masukkan harga beli per unit"
-            formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-            parser={value => value.replace(/\$\s?|(,*)/g, '')}
+            formatter={value => `Rp ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, '.')}
+            parser={value => value.replace(/Rp\s?|(\.*)/g, '')}
           />
         </Form.Item>
 
         <Form.Item 
           name="date" 
           label="Tanggal Masuk Stok" 
-          rules={[
-            { required: true, message: 'Tanggal masuk stok wajib diisi' }
-          ]}
+          rules={[{ required: true, message: 'Tanggal masuk stok wajib diisi' }]}
         >
           <DatePicker 
-            style={{ width: '100%' }} 
             format="YYYY-MM-DD"
+            className="form-date-picker"
             placeholder="Pilih tanggal masuk stok"
           />
         </Form.Item>
 
-        <Form.Item>
-          <Button type="primary" htmlType="submit" block size="large">
+        <Form.Item className="form-submit-item">
+          <Button 
+            type="primary" 
+            htmlType="submit" 
+            block 
+            size="large"
+            className="submit-button"
+          >
             Tambah Batch Stok Baru
           </Button>
         </Form.Item>
       </Form>
-    </div>
+    </Card>
   );
 };
 

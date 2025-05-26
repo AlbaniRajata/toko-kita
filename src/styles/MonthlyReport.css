@@ -1,0 +1,58 @@
+.monthly-report-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.monthly-report-title {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 24px;
+}
+
+.monthly-report-card {
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border: none;
+}
+
+.monthly-report-chart {
+  height: 400px;
+}
+
+.ant-statistic-title {
+  font-weight: 500;
+  color: #555;
+}
+
+.ant-statistic-content-value {
+  font-size: 24px;
+  font-weight: bold;
+  color: #4a6bff;
+}
+
+.ant-table-thead > tr > th {
+  background-color: #f0f2ff !important;
+  font-weight: 600;
+  color: #4a6bff;
+}
+
+.ant-table-tbody > tr > td {
+  font-size: 14px;
+  color: #555;
+}
+
+.ant-table-summary {
+  font-weight: 600;
+  background-color: #fafafa;
+}
+
+@media (max-width: 768px) {
+  .monthly-report-container {
+    padding: 1rem;
+  }
+
+  .ant-statistic-content-value {
+    font-size: 20px;
+  }
+}

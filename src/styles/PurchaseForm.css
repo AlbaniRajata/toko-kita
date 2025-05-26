@@ -1,0 +1,94 @@
+.purchase-form-card {
+  max-width: 1200px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border: none;
+}
+
+.purchase-form {
+  padding: 0 16px;
+}
+
+.form-input {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  transition: all 0.3s;
+}
+
+.form-input:hover {
+  border-color: #4a6bff;
+}
+
+.form-input:focus {
+  border-color: #4a6bff;
+  box-shadow: 0 0 0 2px rgba(74, 107, 255, 0.2);
+}
+
+.form-row {
+  display: flex;
+  gap: 16px;
+}
+
+.form-item-half {
+  flex: 1;
+}
+
+.form-input-number {
+  width: 100%;
+}
+
+.form-input-number .ant-input-number-input {
+  padding: 10px 12px;
+  border-radius: 8px;
+}
+
+.form-date-picker {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+}
+
+.form-date-picker .ant-picker-input > input {
+  padding: 0;
+}
+
+.form-submit-item {
+  margin-top: 24px;
+}
+
+.submit-button {
+  background-color: #4a6bff;
+  border: none;
+  border-radius: 8px;
+  height: 48px;
+  font-weight: 500;
+  transition: all 0.3s;
+}
+
+.submit-button:hover {
+  background-color: #3a5bef;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
+  
+  .purchase-form-card {
+    margin: 0 16px;
+  }
+}
+
+.ant-form-item-label > label {
+  color: #555;
+  font-weight: 500;
+}
+
+.ant-form-item-explain-error {
+  font-size: 12px;
+  margin-top: 4px;
+}

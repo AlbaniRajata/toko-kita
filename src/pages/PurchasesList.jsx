@@ -1,6 +1,7 @@
-import { Table, Typography } from 'antd';
+import { Table, Typography, Card } from 'antd';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import '../styles/PurchasesList.css';
 
 const PurchasesList = () => {
   const [data, setData] = useState([]);
@@ -22,7 +23,14 @@ const PurchasesList = () => {
   return (
     <div style={{ padding: '2rem' }}>
       <Typography.Title level={3}>Riwayat Pembelian</Typography.Title>
-      <Table rowKey="id" dataSource={data} columns={columns} pagination={{ pageSize: 5 }} />
+      <Card className="sales-list-card">
+          <Table 
+            rowKey="id" 
+            dataSource={data} 
+            columns={columns} 
+            pagination={{ pageSize: 5 }} 
+          />
+        </Card>
     </div>
   );
 };
