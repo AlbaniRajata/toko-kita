@@ -5,6 +5,7 @@ import PurchasePage from './pages/PurchasePage';
 import SalesPage from './pages/SalesPage';
 import SalesList from './pages/SalesList';
 import PurchasesList from './pages/PurchasesList';
+import MonthlyReport from './pages/MonthlyReport';
 
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
         <Route path="/sales" element={<SalesPage />} />
         <Route path="/sales-list" element={<SalesList />} />
         <Route path="/purchases-list" element={<PurchasesList />} />
+        <Route path="/report" element={<MonthlyReport />} />
       </Routes>
     </Router>
   );
