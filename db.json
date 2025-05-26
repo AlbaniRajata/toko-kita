@@ -2,8 +2,8 @@
   "stocks": [
     {
       "id": "5356",
-      "name": "Pensil",
-      "quantity": 2,
+      "name": "Pensil 2B",
+      "quantity": 1,
       "purchasePrice": 2000,
       "date": "2025-05-26"
     }
@@ -16,6 +16,17 @@
       "quantity": 50,
       "purchasePrice": 2000,
       "date": "2025-05-26"
+    }
+  ],
+  "sales": [
+    {
+      "id": "6109",
+      "name": "Pensil 2B",
+      "quantity": 1,
+      "sellingPrice": 3000,
+      "date": "2025-05-26",
+      "hpp": 2000,
+      "total": 3000
     }
   ]
 }
