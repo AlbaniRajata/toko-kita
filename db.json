@@ -7,5 +7,15 @@
       "purchasePrice": 2000,
       "date": "2025-05-26"
     }
+  ],
+  "purchases": [
+    {
+      "id": "4287",
+      "name": "Pensil 2B",
+      "supplier": "Toko 1",
+      "quantity": 50,
+      "purchasePrice": 2000,
+      "date": "2025-05-26"
+    }
   ]
 }
