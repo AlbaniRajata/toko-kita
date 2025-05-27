@@ -1,16 +1,19 @@
+import React from 'react';
 import { Form, Input, InputNumber, DatePicker, Button, message, Card } from 'antd';
 import { addStock } from '../services/api';
 import '../styles/StockForm.css';
 
 const StockForm = () => {
   const [form] = Form.useForm();
+  const [submitting, setSubmitting] = React.useState(false);
 
   const onFinish = async (values) => {
+    setSubmitting(true);
     try {
       const stockData = {
         ...values,
         date: values.date.format('YYYY-MM-DD'),
-        id: Date.now().toString().slice(-4),
+        id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
       };
       
       await addStock(stockData);
@@ -19,6 +22,8 @@ const StockForm = () => {
     } catch (error) {
       console.error('Error adding stock:', error);
       message.error('Gagal menambahkan batch stok baru.');
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -82,7 +87,7 @@ const StockForm = () => {
           rules={[{ required: true, message: 'Tanggal masuk stok wajib diisi' }]}
         >
           <DatePicker 
-            format="YYYY-MM-DD"
+            format="DD/MM/YYYY"
             className="form-date-picker"
             placeholder="Pilih tanggal masuk stok"
           />
@@ -94,6 +99,7 @@ const StockForm = () => {
             htmlType="submit" 
             block 
             size="large"
+            loading={submitting}
             className="submit-button"
           >
             Tambah Batch Stok Baru
